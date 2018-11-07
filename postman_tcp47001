@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+import socket				# import modulu socket
+
+s = socket.socket()			# vytvoreni objektu soket
+
+host = '192.168.254.100'		# IP adresa, na ktere server nasloucha
+port = 47001				# port, na kterem server nasloucha
+
+s.connect((host, port))
+s.send("Nazdar!")
+
+with open('testfile.recieved', 'wb') as f:
+	print 'Zahajuji prenos'
+	while True:
+#		print('prijimam data...')
+		data = s.recv(1024)
+#		print('data=%s', (data))
+		if not data:
+			break
+		# write data to a file
+		f.write(data)
+
+f.close()
+print('Prenos dokoncen')
+s.close()
+print('Spojeni uzavreno')
